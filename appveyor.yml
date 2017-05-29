@@ -15,8 +15,7 @@ init:
     cd C:\downloads
     Start-FileDownload "https://releases.hashicorp.com/vagrant/1.9.5/vagrant_1.9.5.msi"
     Start-Process -FilePath "msiexec.exe" -ArgumentList "/a vagrant_1.9.5.msi /qb TARGETDIR=C:\Vagrant-1.9.5" -Wait
-    [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-    Start-FileDownload "http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-Win.exe"
+    curl -fsS -o VirtualBox-5.1.22-115126-Win.exe http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-Win.exe
     Start-Process -FilePath "VirtualBox-5.1.22-115126-Win.exe" -ArgumentList "-silent -logging -msiparams INSTALLDIR=C:\VBox-5.1.22" -Wait
     cd $env:APPVEYOR_BUILD_FOLDER
 - ps: |
