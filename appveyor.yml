@@ -29,12 +29,12 @@ install:
 - VBoxManage -v
 - ssh -V
 - ipconfig /all
-build_script:
+test_script:
 - ps: Test-NetConnection google.com -Port 80
 - vagrant up
 - vagrant ssh -c "uname -a"
 
-# Disable automatic builds
+# Don't actually build.
 build: off
 
 after_build:
