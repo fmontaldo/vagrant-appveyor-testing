@@ -7,22 +7,23 @@ max_jobs: 1
 init:
 - ps: |
     [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-    choco install virtualbox
-    choco install vagrant
-    cd $env:APPVEYOR_BUILD_FOLDER
 - ps: |
     While ((Test-NetConnection google.com -Port 80 -InformationLevel Quiet) -ne "True") {
         echo "waiting for network..."
         Start-Sleep 1
     }
+install:
 - ps: |
+    choco install virtualbox
+    choco install vagrant
+    cd $env:APPVEYOR_BUILD_FOLDER
+    
     mkdir %userprofile%\.vagrant.d | Out-Null
     echo @'
     Vagrant::configure('2') do |config|
       config.vm.boot_timeout = 2048
     end
     '@ | Out-File -encoding UTF8 %userprofile%\.vagrant.d\Vagrantfile
-install:
 - refreshenv
 - vagrant -v
 - VBoxManage -v
