@@ -29,5 +29,12 @@ build_script:
   - vagrant ssh -c "echo 'hello world!'"
   - vagrant ssh -c "uname -a && cat /etc/*release*"
 test: off
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
+# Uncomment below to enable debugging via RDP.
+#
+# Once enabled, you'll need to (via RDP or some other means) remove the file
+# at "%userprofile%\Desktop\Delete me to continue build.txt" to complete the
+# build sucessfully
+#
+# on_finish:
+#   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
