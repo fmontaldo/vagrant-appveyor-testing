@@ -2,6 +2,8 @@ version: '{build}-{branch}'
 os: Windows Server 2012
 platform:
   - x64
+# Maximum number of concurrent jobs for the project
+max_jobs: 1
 init:
 - ps: |
     [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
@@ -28,6 +30,13 @@ install:
 - ipconfig /all
 build_script:
 - ps: Test-NetConnection google.com -Port 80
-- vagrant up || ssh vagrant@127.0.0.1 -p 2222 -i %userprofile%\.vagrant\machines\default\virtualbox\private_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -vvv -C "pwd"
+- vagrant up
 - vagrant ssh -c "uname -a"
+
+# Disable automatic builds
+build: off
+
+after_build:
+- echo "Finished building playground"
+
 test: off
