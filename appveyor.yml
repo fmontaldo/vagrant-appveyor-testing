@@ -4,13 +4,6 @@ platform:
   - x64
 init:
 - ps: |
-    mkdir C:\Users\appveyor\.vagrant.d | Out-Null
-    echo @'
-    Vagrant::configure('2') do |config|
-      config.vm.boot_timeout = 1020
-    end
-    '@ | Out-File -encoding UTF8 C:\Users\appveyor\.vagrant.d\Vagrantfile
-- ps: |
     [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
     choco install virtualbox
     choco install vagrant
@@ -20,6 +13,13 @@ init:
         echo "waiting for network..."
         Start-Sleep 1
     }
+- ps: |
+    mkdir %userprofile%\.vagrant.d | Out-Null
+    echo @'
+    Vagrant::configure('2') do |config|
+      config.vm.boot_timeout = 2048
+    end
+    '@ | Out-File -encoding UTF8 %userprofile%\.vagrant.d\Vagrantfile
 install:
 - refreshenv
 - vagrant -v
