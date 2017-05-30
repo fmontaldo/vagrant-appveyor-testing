@@ -29,15 +29,14 @@ install:
 - VBoxManage -v
 - ssh -V
 - ipconfig /all
-test_script:
+
+# Don't actually build.
+build_script:
+
+after_build:
 - ps: Test-NetConnection google.com -Port 80
 - vagrant up
 - vagrant ssh -c "uname -a"
-
-# Don't actually build.
-build: off
-
-after_build:
 - echo "Finished building playground"
 
 test: off
