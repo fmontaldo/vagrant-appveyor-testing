@@ -1,5 +1,5 @@
 version: '{build}-{branch}'
-image: Visual Studio 2017
+os: Default Azure
 platform:
   - x64
 # Maximum number of concurrent jobs for the project
@@ -17,27 +17,17 @@ install:
     choco install virtualbox
     choco install vagrant
     cd $env:APPVEYOR_BUILD_FOLDER
-    
-    mkdir %userprofile%\.vagrant.d | Out-Null
-    echo @'
-    Vagrant::configure('2') do |config|
-      config.vm.boot_timeout = 2048
-    end
-    '@ | Out-File -encoding UTF8 %userprofile%\.vagrant.d\Vagrantfile
 - refreshenv
 - vagrant -v
 - VBoxManage -v
 - ssh -V
 - ipconfig /all
 
-# Don't actually build.
 build_script:
-- echo "Build phase finished"
-
-after_build:
-- ps: Test-NetConnection google.com -Port 80
-- vagrant up
-- vagrant ssh -c "uname -a"
-- echo "Finished building playground"
-
+  - ps: Test-NetConnection google.com -Port 80
+  - vagrant up
+  - vagrant ssh -c "uname -a"
+  - vagrant ssh -c "echo 'hello world!'"
 test: off
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
