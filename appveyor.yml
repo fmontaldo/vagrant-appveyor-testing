@@ -26,8 +26,8 @@ install:
 build_script:
   - ps: Test-NetConnection google.com -Port 80
   - vagrant up
-  - vagrant ssh -c "uname -a"
   - vagrant ssh -c "echo 'hello world!'"
+  - vagrant ssh -c "uname -a && cat /etc/*release*"
 test: off
 on_finish:
   - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

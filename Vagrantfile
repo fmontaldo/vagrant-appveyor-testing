@@ -13,7 +13,13 @@ Vagrant.configure("2") do |c|
 
   c.vm.provider :virtualbox do |p|
     p.customize ["modifyvm", :id, "--nictype1", "Am79C973"]
-    p.customize ["modifyvm", :id, "--memory", "128"]
+    
+    # Minimum memory - Observed working on 5/30/2017
+    # => https://ci.appveyor.com/project/b-long/vagrant-appveyor-testing/build/22-master 
+    # p.customize ["modifyvm", :id, "--memory", "128"]
+    
+    p.customize ["modifyvm", :id, "--memory", "512"]
+
     p.gui = true
   end
 end
