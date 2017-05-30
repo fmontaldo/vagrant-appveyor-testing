@@ -32,6 +32,7 @@ install:
 
 # Don't actually build.
 build_script:
+- echo "Build phase finished"
 
 after_build:
 - ps: Test-NetConnection google.com -Port 80
